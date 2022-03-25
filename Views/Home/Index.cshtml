@@ -2,13 +2,74 @@
     ViewData["Title"] = "Home Page";
 }
 
-@model List<Bowler>
+@model IQueryable<Bowler>
 
-<h1>Bowlers</h1>
 
-<ul>
-    @foreach(var r in Model)
+<h1>@*@ViewBag["Heading"] = "Bowlers"*@</h1>
+<div class="row">
+    <div class="col-4">
+        <form method="post" asp-action="Index" asp-controller="Home">
+
+    <select class="dropdown-header float-left m-3" name="teamName">
+        <option value="">All Bowlers</option>
+        @foreach (var t in ViewBag.Teams)
+        {
+
+            @if (t.TeamID == ViewBag.teamid)
             {
-                <li>@r.BowlerFirstName.</li>
+                <option selected value="@t.TeamID">@t.TeamName</option>
             }
-</ul>
+            else
+            {
+                <option value="@t.TeamID">@t.TeamName</option>
+            }
+
+        }
+    </select>
+
+    <button class="btn btn-primary  m-3 " type="submit">Filter </button>
+</form>
+    </div>
+    
+    <div class="col-8">
+        <form method="get" asp-controller="Home" asp-action="Create"><button type="submit" class="float-lg-right btn btn-primary m-3">New Bowler</button></form>
+    </div>
+</div>
+
+
+
+<table class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <td>First Name</td>
+            <td>Middle Initial</td>
+            <td>Last Name</td>
+            <td>Address</td>
+            <td>City</td>
+            <td>State</td>
+            <td>Zip</td>
+            <td>Phone#</td>
+            <td>Edit</td>
+            <td>Delete</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+
+                <td>@r.BowlerFirstName</td>
+                <td>@r.BowlerMiddleInit</td>
+                <td>@r.BowlerLastName</td>
+                <td>@r.BowlerAddress</td>
+                <td>@r.BowlerCity</td>
+                <td>@r.BowlerState</td>
+                <td>@r.BowlerZip</td>
+                <td>@r.BowlerPhoneNumber</td>
+                <td><a class="btn btn-secondary" asp-controller="Home" asp-action="Edit" asp-route-id="@r.BowlerId">Edit</a></td>
+                <td><a class="btn btn-danger" asp-controller="Home" asp-action="Delete" asp-route-id="@r.BowlerId">Delete</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

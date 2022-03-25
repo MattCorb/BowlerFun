@@ -1,0 +1,91 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@{
+    ViewData["Title"] = "Create / Edit";
+}
+
+@model Bowler
+<h1>Fill out dating application</h1>
+
+
+<div>
+   
+        <form method="post" asp-controller="Home" asp-action="Create"> 
+
+
+            @if (Model is null)
+            {
+                <input type="hidden" asp-for="BowlerId" value="0" >
+
+            }
+            else
+            {
+                <input type="hidden" asp-for="BowlerId" value="@Model.BowlerId">
+            }
+
+            <label asp-for="BowlerFirstName">First Name</label>
+            <input asp-for="BowlerFirstName" /><br />
+
+            <label asp-for="BowlerMiddleInit">Middle Initial</label>
+            <input asp-for="BowlerMiddleInit" maxlength="1" /><br />
+
+            <label asp-for="BowlerLastName">Last Name</label>
+            <input asp-for="BowlerLastName" /><br />
+
+            <label asp-for="BowlerAddress">Address</label>
+            <input asp-for="BowlerAddress" /><br />
+
+            <label asp-for="BowlerCity">City</label>
+            <input asp-for="BowlerCity" /><br />
+
+            <label asp-for="BowlerState">State</label>
+            <input asp-for="BowlerState" maxlength="2" /><br />
+
+            <label asp-for="BowlerZip">Zip</label>
+            <input asp-for="BowlerZip" /><br />
+
+            <label asp-for="BowlerPhoneNumber">Phone#</label>
+            <input asp-for="BowlerPhoneNumber" /><br />
+
+            <label asp-for="TeamID">Team </label>
+            <select asp-for="TeamID">
+
+                @if (Model is null)
+                {
+
+                    @foreach (var t in ViewBag.Teams)
+                    {
+                        <option value="@t.TeamID">@t.TeamName</option>
+                    }
+                }
+                else
+                {
+                    <option value="@Model.TeamID">@Model.Team.TeamName</option>
+
+                    @foreach (var t in ViewBag.Teams)
+                    {
+
+                        if (Model.Team.TeamName != t.TeamName)
+                        {
+                            <option value="@t.TeamID">@t.TeamName</option>
+                        }
+
+                    }
+                }
+
+
+
+            </select>
+
+
+            <br />
+            <button type="submit">Add Bowler</button>
+
+            <div asp-validation-summary="All"></div>
+        </form>
+
+    </div>
